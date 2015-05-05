@@ -48,7 +48,7 @@
     "opn": "^1.0.2",
     "react-hot-loader": "^1.1.4",
     "react-tools": "^0.12.1",
-    "sass-loader": "^0.6.0",
+    "sass-loader": "~0.3.0",
     "stats-webpack-plugin": "0.0.1",
     "style-loader": "~0.8.3",
     "transform": "^1.1.2",

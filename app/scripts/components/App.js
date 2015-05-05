@@ -4,6 +4,8 @@ import { Pool } from './Pool';
 import { User } from './User';
 import { Timer } from './Timer';
 
+import './App.scss';
+
 export const App = React.createClass({
 
   render: function () {
@@ -23,7 +25,11 @@ export const App = React.createClass({
           (window.pickorder[window.pickindex] === window.name)?
             window.pools.map((pool, i) =>
               <div className="pool-group" key={ i }>
-                <h1>Pool #{ i + 1 }</h1>
+                              <h1>Pool #{ i + 1 }
+                <span className='select-button' onClick={ function () { window.makePick(i) } }>
+                  Pick this Pool
+                </span>
+              </h1>
                 <Pool contents={ pool } />
               </div>
             )
