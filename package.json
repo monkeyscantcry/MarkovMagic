@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "faye": "^1.1.1",
     "react": "~0.12.2"
   },
   "devDependencies": {
