@@ -37,8 +37,7 @@ export const App = React.createClass({
         }
         {
           (window.pickorder[window.pickindex] !== window.name && window.waitingForVeto)?
-            <div className="pool-group" key={ i }>
-              <h1>Pool #{ i + 1 }</h1>
+            <div className="pool-group">
               <Pool contents={ window.pools[window.picks[window.justPicked]] } />
             </div>
           : ''

@@ -22,7 +22,9 @@ client.subscribe('/room1', function(message) {
       if (waitingForVeto) {
         alert('Pick good!');
         waitingForVeto = false;
-        pass();
+        if (pickorder[pickindex] === name) {
+          pass();
+        }
       } else if (pickorder[pickindex] === name) {
         makePick(pools.length - 5)
       }
