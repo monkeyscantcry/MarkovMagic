@@ -23,7 +23,7 @@ client.subscribe('/room1', function(message) {
         alert('Pick good!');
         waitingForVeto = false;
         pass();
-      } else if (pickoder[pickindex] === name) {
+      } else if (pickorder[pickindex] === name) {
         makePick(pools.length - 5)
       }
     break;
@@ -32,7 +32,7 @@ client.subscribe('/room1', function(message) {
     break;
     case 'pick':
       picks[message.from] = message.index;
-      justPicked = message.from;
+      window.justPicked = message.from;
       waitingForVeto = true;
     break;
     case 'newUserList':
@@ -40,7 +40,7 @@ client.subscribe('/room1', function(message) {
       vetos = message.vetos;
     break;
     case 'newPicker':
-      if (pickoder[message.pickindex] === name) {
+      if (pickorder[message.pickindex] === name) {
         alert('Your Turn!');
       }
       pickindex = message.pickindex;
@@ -71,6 +71,8 @@ setTimeout(function () {
 
   name = prompt('What is your name', '')
   register(name);
+
+  pass();
 }, 2500)
 
 window.makePick = makePick

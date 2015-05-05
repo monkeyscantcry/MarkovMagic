@@ -1,4 +1,4 @@
-.user {
+.timer {
   text-align: center;
   padding: 15px;
   font-size: 2rem;
@@ -6,12 +6,7 @@
   border: 3px solid gray;
   background: #888;
 
-  &.active {
-    border: 3px solid green;
-  }
-
-  small {
-    display: block;
-    font-size: 1rem;
-  }
+  position: fixed;
+  right: 15px;
+  top: 15px;
 }

@@ -14,20 +14,26 @@ export const App = React.createClass({
         <Timer time={ 90 } />
         {
           window.pickorder.map((username, i) =>
-            <User name={ username } key={ i } vetos={ window.vetos[username] } />
+            <User
+              name={ username }
+              key={ i }
+              vetos={ window.vetos[username] }
+              active={ window.pickorder[window.pickindex] === username } />
           )
         }
         {
-          window.pools.map((pool, i) =>
-            <div className="pool-group">
-              <h1>Pool #{ i + 1 }
+          (window.pickorder[window.pickindex] === window.name)?
+            window.pools.map((pool, i) =>
+              <div className="pool-group" key={ i }>
+                              <h1>Pool #{ i + 1 }
                 <span className='select-button' onClick={ function () { window.makePick(i) } }>
                   Pick this Pool
                 </span>
               </h1>
-              <Pool contents={ pool } />
-            </div>
-          )
+                <Pool contents={ pool } />
+              </div>
+            )
+          : <h1>Waiting . . .</h1>
         }
       </div>
     );
