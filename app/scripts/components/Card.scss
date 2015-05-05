@@ -2,7 +2,7 @@
 	float: left;
 	position: relative;
 	width: 200px;
-	height: 360px;
+	height: 285px;
 	margin: 5px;
 
 	img {
@@ -12,11 +12,23 @@
 	}
 }
 
-.card-info {
+.card-name {
 	background: white;
 	opacity: 0.75;
 	position: absolute;
 	text-align: center;
+	top: 40px;
 	left: 0px;
 	width: 100%;
+}
+
+.card-count {
+	background: white;
+	opacity: 0.75;
+	position: absolute;
+	text-align: center;
+	font-size: 3em;
+	bottom: 40px;
+	width: 70%;
+	left: 15%;
 }
