@@ -22,7 +22,7 @@ export const App = React.createClass({
           )
         }
         {
-          (window.pickorder[window.pickindex] === window.name)?
+          (window.pickorder[window.pickindex] === window.name && !window.waitingForVeto)?
             window.pools.map((pool, i) =>
               <div className="pool-group" key={ i }>
                               <h1>Pool #{ i + 1 }
