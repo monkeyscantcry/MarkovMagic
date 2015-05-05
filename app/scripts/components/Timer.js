@@ -3,6 +3,7 @@ const React = require('react/addons');
 import './Timer.scss';
 
 var timeout;
+var time;
 
 export const Timer = React.createClass({
   getInitialState: function () {
@@ -11,14 +12,31 @@ export const Timer = React.createClass({
     }
   },
   componentDidMount: function () {
+    time = this.props.time;
+
     timeout = setInterval(() => {
-      this.setState({seconds: this.state.seconds - 1})
+      if (this.state.seconds > 0) {
+        this.setState({seconds: this.state.seconds - 1})
+      }
     }, 1000)
+  },
+  componentDidUpdate: function () {
+    clearInterval(timeout);
+
+    if (time !== this.props.time) {
+      this.setState({seconds: that.props.time});
+
+      timeout = setInterval(() => {
+        if (this.state.seconds > 0) {
+          this.setState({seconds: this.state.seconds - 1})
+        }
+      }, 1000)
+    }
   },
 	render: function () {
 		const that = this;
 		return (
-			<div className='timer'>
+			<div className={ 'timer' + (this.state.seconds < 10? ' danger' : '')}>
         { this.state.seconds }
 			</div>
 		)

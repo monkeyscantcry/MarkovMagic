@@ -12,17 +12,21 @@ window.pools = [];
 var noPoolsYet = true;
 window.waitingForVeto = false;
 window.justPicked;
+window.done = false;
 
 client.subscribe('/room1', function(message) {
   switch (message.type) {
     case 'pools':
       pools = message.pools;
     break;
+    case 'timerStart':
+      window.timerTime = message.length
+    break;
     case 'timer':
       if (waitingForVeto) {
-        alert('Pick good!');
         waitingForVeto = false;
         if (pickorder[pickindex] === name) {
+          window.justPickedwindow.justPicked = null;
           pass();
         }
       } else if (pickorder[pickindex] === name) {
@@ -42,10 +46,10 @@ client.subscribe('/room1', function(message) {
       vetos = message.vetos;
     break;
     case 'newPicker':
-      if (pickorder[message.pickindex] === name) {
-        alert('Your Turn!');
-      }
       pickindex = message.pickindex;
+    break;
+    case 'done':
+      alert('All Done!');
     break;
   }
   if (message.type !== 'pools' || noPoolsYet) {
