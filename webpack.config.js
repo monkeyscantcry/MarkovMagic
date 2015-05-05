@@ -40,7 +40,7 @@ module.exports = {
         loader: 'json-loader'
       },
       { test: /\.css/, loader: "style-loader!css-loader" },
-    //   { test: /\.scss/, loader: "style-loader!css-loader!sass" },
+      { test: /\.scss/, loader: "style-loader!css-loader!sass" },
       { test: /\.gif/, loader: "url-loader?limit=10000&minetype=image/gif" },
       { test: /\.jpg/, loader: "url-loader?limit=10000&minetype=image/jpg" },
       { test: /\.png/, loader: "url-loader?limit=10000&minetype=image/png" },
