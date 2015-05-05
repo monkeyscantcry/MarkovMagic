@@ -1,0 +1,6 @@
+{
+  "name": "Pool",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Pool.js"
+}
