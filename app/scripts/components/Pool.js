@@ -8,8 +8,8 @@ export const Pool = React.createClass({
 		return (
 			<div>
 				{
-					that.props.contents.map(function (card) {
-						return <Card name={ card.name } imgSrc={ card.src } count={ card.quantity } />
+					that.props.contents.map(function (card, i) {
+						return <Card name={ card.name } imgSrc={ card.src } count={ card.quantity } key={ i } />
 					})
 				}
 			</div>
