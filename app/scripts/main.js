@@ -26,7 +26,7 @@ client.subscribe('/room1', function(message) {
       if (waitingForVeto) {
         waitingForVeto = false;
         if (pickorder[pickindex] === name) {
-          window.justPickedwindow.justPicked = null;
+          window.justPicked = null;
           pass();
         }
       } else if (pickorder[pickindex] === name) {
