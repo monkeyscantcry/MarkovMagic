@@ -2,7 +2,7 @@ const React = require('react');
 const Faye = require('faye');
 const App = require('./components/App').App;
 
-window.client = new Faye.Client('http://localhost:8001/');
+window.client = new Faye.Client('http://192.168.1.159:8001/');
 window.name = 'test';
 window.vetos = 2;
 window.picks = {};
