@@ -8,6 +8,7 @@ export const User = React.createClass({
 		return (
 			<div className='user'>
         { this.props.name }
+        <small>{ this.props.vetos } Vetos Remaining</small>
 			</div>
 		)
 	}

@@ -4,7 +4,7 @@ const App = require('./components/App').App;
 
 window.client = new Faye.Client('http://192.168.1.159:8001/');
 window.name = 'test';
-window.vetos = 2;
+window.vetos = {};
 window.picks = {};
 window.pickorder = [];
 window.pickindex = [];
@@ -37,6 +37,7 @@ client.subscribe('/room1', function(message) {
     break;
     case 'newUserList':
       pickorder = message.pickorder;
+      vetos = message.vetos;
     break;
     case 'newPicker':
       if (pickoder[message.pickindex] === name) {
@@ -68,5 +69,10 @@ function makePick(index) {
 setTimeout(function () {
   client.publish('/room1', {type: 'getPools', from: name})
 
-  register('Max')
+  name = prompt('What is your name', '')
+  register(name);
 }, 2500)
+
+window.makePick = makePick
+window.pass = pass
+window.veto = veto
