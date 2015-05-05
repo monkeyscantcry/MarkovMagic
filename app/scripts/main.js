@@ -50,6 +50,7 @@ client.subscribe('/room1', function(message) {
     break;
     case 'done':
       alert('All Done!');
+      window.done = true;
     break;
   }
   if (message.type !== 'pools' || noPoolsYet) {

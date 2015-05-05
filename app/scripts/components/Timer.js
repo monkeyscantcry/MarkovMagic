@@ -21,9 +21,9 @@ export const Timer = React.createClass({
     }, 1000)
   },
   componentDidUpdate: function () {
-    clearInterval(timeout);
-
     if (time !== this.props.time) {
+      clearInterval(timeout);
+
       this.setState({seconds: that.props.time});
 
       timeout = setInterval(() => {

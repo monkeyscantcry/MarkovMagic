@@ -12,7 +12,13 @@ export const App = React.createClass({
   render: function () {
     var inner;
 
-    if (window.pickorder[window.pickindex] === window.name && !window.waitingForVeto) {
+    if (window.done) {
+      inner =
+        <div className="pool-group">
+          <h1>Your Pool</h1>
+          <Pool contents={ window.pools[window.picks[window.name]] } />
+        </div>
+    } else if (window.pickorder[window.pickindex] === window.name && !window.waitingForVeto) {
       inner =
         window.pools.map((pool, i) =>
           <div className="pool-group" key={ i }>
