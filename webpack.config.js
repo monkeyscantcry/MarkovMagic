@@ -1,151 +1,59 @@
-/*
- * React.js Starter Kit
- * Copyright (c) Konstantin Tarkus (@koistya), KriaSoft LLC
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
+var path = require("path");
+var webpack = require("webpack");
+var StatsPlugin = require('stats-webpack-plugin');
 
-'use strict';
-
-var _ = require('lodash');
-var webpack = require('webpack');
-var argv = require('minimist')(process.argv.slice(2));
-
-var DEBUG = !argv.release;
-
-var AUTOPREFIXER_LOADER = 'autoprefixer-loader?{browsers:[' +
-  '"Android 2.3", "Android >= 4", "Chrome >= 20", "Firefox >= 24", ' +
-  '"Explorer >= 8", "iOS >= 6", "Opera >= 12", "Safari >= 6"]}';
-
-var GLOBALS = {
-  'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
-  '__DEV__': DEBUG
-};
-
-//
-// Common configuration chunk to be used for both
-// client-side (app.js) and server-side (server.js) bundles
-// -----------------------------------------------------------------------------
-
-var config = {
-  output: {
-    path: './build/',
-    publicPath: './',
-    sourcePrefix: '  '
-  },
-
-  cache: DEBUG,
-  debug: DEBUG,
-  devtool: DEBUG ? '#inline-source-map' : false,
-
-  stats: {
-    colors: true,
-    reasons: DEBUG
-  },
-
-  plugins: [
-    new webpack.optimize.OccurenceOrderPlugin()
+module.exports = {
+  // This is the main file that should include all other JS files
+  entry: [
+    // 'webpack-dev-server/client?http://0.0.0.0:8080', // WebpackDevServer host and port
+    // 'webpack/hot/only-dev-server',
+    "./app/scripts/main.js"
+    // "./styles/main.scss"
   ],
-
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
+      root: [path.join(__dirname, "node_modules")]
   },
-
+  context: __dirname,
+  target: "web",
+  debug: true,
+  // We are watching in the gulp.watch, so tell webpack not to watch
+  watch: false,
+  // watchDelay: 300,
+  output: {
+        path: path.join(__dirname, 'app'),
+        publicPath: '',
+    contentBase: path.join(__dirname, 'app'),
+        filename: "app.js",
+        chunkFilename: "[chunkhash].js"
+  },
+  node: {
+    fs: 'empty',
+    tls: 'empty',
+    net: 'empty',
+    dgram: 'empty',
+    dns: 'empty'
+  },
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader'
-      }
-    ],
-
     loaders: [
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader!' + AUTOPREFIXER_LOADER
+        test: /\.json$/,
+        loader: 'json-loader'
       },
-      {
-        test: /\.less$/,
-        loader: 'style-loader!css-loader!' + AUTOPREFIXER_LOADER +
-                '!less-loader'
-      },
-      {
-        test: /\.gif/,
-        loader: 'url-loader?limit=10000&mimetype=image/gif'
-      },
-      {
-        test: /\.jpg/,
-        loader: 'url-loader?limit=10000&mimetype=image/jpg'
-      },
-      {
-        test: /\.png/,
-        loader: 'url-loader?limit=10000&mimetype=image/png'
-      },
-      {
-        test: /\.svg/,
-        loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
-      },
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      }
+      { test: /\.css/, loader: "style-loader!css-loader" },
+    //   { test: /\.scss/, loader: "style-loader!css-loader!sass" },
+      { test: /\.gif/, loader: "url-loader?limit=10000&minetype=image/gif" },
+      { test: /\.jpg/, loader: "url-loader?limit=10000&minetype=image/jpg" },
+      { test: /\.png/, loader: "url-loader?limit=10000&minetype=image/png" },
+      { test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', '6to5-loader'] },
+      { test: /\.jsx$/, loaders: ['6to5-loader'] },
+      { test: /\.coffee$/, loader: "jsx-loader!coffee-loader" }
     ]
-  }
-};
-
-//
-// Configuration for the client-side bundle (app.js)
-// -----------------------------------------------------------------------------
-
-var appConfig = _.merge({}, config, {
-  entry: './src/app.js',
-  output: {
-    filename: 'app.js'
   },
-  plugins: config.plugins.concat([
-      new webpack.DefinePlugin(_.merge(GLOBALS, {'__SERVER__': false}))
-    ].concat(DEBUG ? [] : [
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.UglifyJsPlugin(),
-      new webpack.optimize.AggressiveMergingPlugin()
-    ])
-  )
-});
-
-//
-// Configuration for the server-side bundle (server.js)
-// -----------------------------------------------------------------------------
-
-var serverConfig = _.merge({}, config, {
-  entry: './src/server.js',
-  output: {
-    filename: 'server.js',
-    libraryTarget: 'commonjs2'
-  },
-  target: 'node',
-  externals: /^[a-z][a-z\.\-0-9]*$/,
-  node: {
-    console: false,
-    global: false,
-    process: false,
-    Buffer: false,
-    __filename: false,
-    __dirname: false
-  },
-  plugins: config.plugins.concat(
-    new webpack.DefinePlugin(_.merge(GLOBALS, {'__SERVER__': true}))
-  ),
-  module: {
-    loaders: config.module.loaders.map(function(loader) {
-      // Remove style-loader
-      return _.merge(loader, {
-        loader: loader.loader = loader.loader.replace('style-loader!', '')
-      });
+  plugins: [
+    // new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      __ROOT_PATH__: '"' + __dirname.toString() + '"'
     })
-  }
-});
-
-module.exports = [appConfig, serverConfig];
+  ]
+};
