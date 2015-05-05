@@ -29,6 +29,14 @@ export const App = React.createClass({
             )
           : <h1>Waiting . . .</h1>
         }
+        {
+          (window.pickorder[window.pickindex] !== window.name && window.waitingForVeto)?
+            <div className="pool-group" key={ i }>
+              <h1>Pool #{ i + 1 }</h1>
+              <Pool contents={ window.pools[window.picks[window.justPicked]] } />
+            </div>
+          : ''
+        }
       </div>
     );
   }
