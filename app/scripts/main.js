@@ -9,6 +9,7 @@ window.picks = {};
 window.pickorder = [];
 window.pickindex = [];
 window.pools = [];
+var noPoolsYet = true;
 window.waitingForVeto = false;
 window.justPicked;
 
@@ -18,7 +19,6 @@ client.subscribe('/room1', function(message) {
       pools = message.pools;
     break;
     case 'timer':
-      alert('Time Up!');
       if (waitingForVeto) {
         alert('Pick good!');
         waitingForVeto = false;
@@ -46,7 +46,10 @@ client.subscribe('/room1', function(message) {
       pickindex = message.pickindex;
     break;
   }
-  React.render(<App />, document.getElementById('app'));
+  if (message.type !== 'pools' || noPoolsYet) {
+    noPoolsYet = false;
+    React.render(<App />, document.getElementById('app'));
+  }
 });
 
 function register(newName) {
@@ -71,8 +74,6 @@ setTimeout(function () {
 
   name = prompt('What is your name', '')
   register(name);
-
-  pass();
 }, 2500)
 
 window.makePick = makePick
