@@ -3,6 +3,9 @@ const React = require('react/addons');
 import { Card } from './Card';
 
 export const Pool = React.createClass({
+  shouldComponentUpdate: function () {
+    return false;
+  },
 	render: function () {
 		const that = this;
 		return (

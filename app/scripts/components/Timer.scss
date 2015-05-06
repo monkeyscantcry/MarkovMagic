@@ -6,6 +6,10 @@
   border: 3px solid gray;
   background: #888;
 
+  &.danger {
+    border: 3px solid red;
+  }
+
   position: fixed;
   right: 15px;
   top: 15px;

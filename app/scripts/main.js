@@ -2,10 +2,11 @@ const React = require('react');
 const Faye = require('faye');
 const App = require('./components/App').App;
 
-window.client = new Faye.Client('http://192.168.1.159:8001/');
+window.client = new Faye.Client('http://localhost:8001/');
 window.name = 'test';
 window.vetos = {};
 window.picks = {};
+window.banned = {};
 window.pickorder = [];
 window.pickindex = [];
 window.pools = [];
@@ -20,7 +21,8 @@ client.subscribe('/room1', function(message) {
       pools = message.pools;
     break;
     case 'timerStart':
-      window.timerTime = message.length
+      console.log('timerStart', message)
+      window.timerTime = message.length / 1000
     break;
     case 'timer':
       if (waitingForVeto) {
@@ -34,7 +36,11 @@ client.subscribe('/room1', function(message) {
       }
     break;
     case 'veto':
+      waitingForVeto = false;
       delete picks[justPicked];
+    break;
+    case 'ban':
+      banned[message.index] = true;
     break;
     case 'pick':
       picks[message.from] = message.index;
@@ -74,6 +80,10 @@ function pass() {
 
 function makePick(index) {
   client.publish('/room1', {type: 'pick', index: index, from: name})
+}
+
+function ban(index) {
+  client.publish('/room1', {type: 'ban', index: index, from: name})
 }
 
 setTimeout(function () {

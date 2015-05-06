@@ -20,11 +20,13 @@ export const Timer = React.createClass({
       }
     }, 1000)
   },
-  componentDidUpdate: function () {
+  componentDidUpdate: function (lastProps, lastState) {
     if (time !== this.props.time) {
+      time = this.props.time;
+
       clearInterval(timeout);
 
-      this.setState({seconds: that.props.time});
+      this.setState({seconds: this.props.time});
 
       timeout = setInterval(() => {
         if (this.state.seconds > 0) {
@@ -36,7 +38,7 @@ export const Timer = React.createClass({
 	render: function () {
 		const that = this;
 		return (
-			<div className={ 'timer' + (this.state.seconds < 10? ' danger' : '')}>
+			<div className={ 'timer' + (this.state.seconds < 15? ' danger' : '')}>
         { this.state.seconds }
 			</div>
 		)

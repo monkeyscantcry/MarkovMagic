@@ -23,9 +23,17 @@ export const App = React.createClass({
         window.pools.map((pool, i) =>
           <div className="pool-group" key={ i }>
                           <h1>Pool #{ i + 1 }
-            <span className='select-button' onClick={ function () { window.makePick(i) } }>
-              Pick this Pool
-            </span>
+
+            {
+              new IfElse(window.banned[i])
+              .when(undefined, () =>
+                <span className='select-button' onClick={ function () { window.makePick(i) } }>
+                  Pick this Pool
+                </span>
+              )
+              .when(true, () => <strong> Gone!</strong>)
+              .get()
+            }
           </h1>
             <Pool contents={ pool } />
           </div>
@@ -37,13 +45,25 @@ export const App = React.createClass({
     } else if (window.pickorder[window.pickindex] !== window.name && window.waitingForVeto) {
       inner =
         <div className="pool-group">
+          <h1>{window.pickorder[window.pickindex]}&#39;s Pick
+            {
+              new IfElse(window.vetos[window.name] > 0)
+              .when(true, () =>
+                <span className='veto-button' onClick={ window.veto }>
+                  Veto
+                </span>
+              )
+              .when(false, () => <strong> No Vetos!</strong>)
+              .get()
+            }
+          </h1>
           <Pool contents={ window.pools[window.picks[window.justPicked]] } />
         </div>
     }
 
     return (
       <div className="ContentPage">
-        <Timer time={ 90 } />
+        <Timer time={ window.timerTime } />
         {
           window.pickorder.map((username, i) =>
             <User
